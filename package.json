@@ -1,0 +1,30 @@
+{
+  "name": "retail-client",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Adaptive Retail Intelligence Platform — frontend and desktop client (React + Vite + Electron).",
+  "license": "UNLICENSED",
+  "packageManager": "pnpm@11.28.13",
+  "engines": {
+    "node": ">=22.12.0",
+    "pnpm": ">=11"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @arp/web dev",
+    "dev:web": "pnpm --filter @arp/web dev",
+    "dev:desktop": "pnpm --filter @arp/desktop dev",
+    "build": "pnpm --filter @arp/web build && pnpm --filter @arp/desktop build",
+    "lint": "pnpm -r --if-present lint",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "pnpm test:unit",
+    "test:unit": "pnpm -r --if-present test:unit",
+    "setup": "pnpm install"
+  },
+  "prettier": "@arp/config/prettier",
+  "devDependencies": {
+    "@arp/config": "workspace:*",
+    "prettier": "3.10.1"
+  }
+}
