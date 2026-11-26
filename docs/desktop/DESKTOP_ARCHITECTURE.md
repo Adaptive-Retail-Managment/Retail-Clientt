@@ -247,11 +247,15 @@ test is claimed until it runs.
 | Piece                              | State                                 |
 | ---------------------------------- | ------------------------------------- |
 | Electron 45 shell                  | Implemented; launch unverified        |
-| Window hardening                   | Implemented                           |
-| Preload allowlist (`app:get-info`) | Implemented                           |
+| Window hardening                   | Implemented — exact-URL navigation allowlist (dev origin / packaged `file://` only), redirect + window-open denial, webview blocking, deny-all permissions |
+| Content Security Policy            | Implemented — two layers: (1) `<meta>` CSP injected at build time (`apps/web/vite.config.ts`) covers the packaged `file://` renderer, which `webRequest` cannot reach; (2) `webRequest.onHeadersReceived` enforces a per-response CSP for http(s) renderer loads (dev server). Prod `connect-src` is scoped to `'self'` + the API origin (`VITE_API_URL`/`ARP_API_BASE_URL` at build time). **Meta-policy caveat**: `frame-ancestors`/`sandbox`/`report-uri` are ignored in `<meta>` CSP per spec — clickjacking protection for the packaged app is provided by the main-process navigation allowlist instead |
+| External links                     | Implemented — `shell.openExternal` via IPC only; https-only, credential-free, public destinations (loopback/private/internal rejected) |
+| IPC contract                       | Implemented — `app:get-info`, `app:get-runtime-config`, `shell:open-external`; channel allowlist + trusted-sender-frame validation |
+| Preload bridge                     | Implemented — frozen `window.desktop` (`DesktopApi` from `@arp/contracts`); no `ipcRenderer`/Node exposure |
 | Shared renderer loading            | Implemented (target selection tested) |
-| SQLite, offline mode, sync         | Planned                               |
+| Offline transaction queue          | Foundation implemented in shared renderer — IndexedDB (`apps/web/src/lib/offline/`); see `docs/web/OFFLINE_ARCHITECTURE.md` |
+| SQLite, offline mode, sync         | Sync engine Planned — awaits backend contract (`docs/web/BACKEND_DEPENDENCIES.md`) |
 | Encrypted storage, keychain        | Planned                               |
 | Device enrolment, offline login    | Planned                               |
-| Printing and hardware              | Planned                               |
+| Printing and hardware              | Planned — permissions denied until narrowly scoped IPC exists |
 | Packaging, signing, updates        | Planned                               |

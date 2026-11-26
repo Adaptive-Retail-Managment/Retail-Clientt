@@ -16,8 +16,9 @@ and refuses to start with missing or malformed values.
 | `POSTGRES_PASSWORD`    | Compose       | `arp_dev_password`                                                               | Dev only, never reused outside local                                                                |
 | `POSTGRES_DB`          | Compose       | `adaptive_retail`                                                                | Dev only                                                                                            |
 | `POSTGRES_PORT`        | Compose       | `5432`                                                                           | Host port                                                                                           |
-| `VITE_API_URL`         | Web           | unset (same-origin / Vite proxy)                                                 | Absolute API URL when the web app is served from a different origin                                 |
-| `WEB_DEV_URL`          | Desktop       | `http://localhost:5173`                                                          | Only used with `electron . --dev`                                                                   |
+| `VITE_API_URL`         | Web           | unset (same-origin / Vite proxy)                                                 | Absolute API URL when the web app is served from a different origin; baked in at build time                                    |
+| `WEB_DEV_URL`          | Desktop       | `http://localhost:5173`                                                          | Only used with `electron . --dev`                                                                                              |
+| `ARP_API_BASE_URL`     | Desktop (main) | unset                                                                            | API base URL for the **packaged** app; read by the Electron main process, exposed via `app:get-runtime-config`, and baked into the build-time CSP `connect-src`. Required when the renderer runs from `file://` without `VITE_API_URL`. Set it when producing the web `dist` used for packaging |
 
 Rules:
 

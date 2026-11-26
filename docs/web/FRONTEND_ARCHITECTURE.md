@@ -346,13 +346,18 @@ Rules:
 
 | Piece                             | State                               |
 | --------------------------------- | ----------------------------------- |
-| React/Vite shell, router          | Implemented (one route)             |
+| React/Vite shell, router          | Implemented — public `/` + `/login`, protected `/app`; hash router auto-selected on `file://` origins (packaged desktop) |
 | System status feature             | Implemented                         |
-| Probe API client                  | Implemented                         |
-| Auth provider and guards          | Planned                             |
-| Business context and picker       | Planned                             |
+| API client                        | Implemented — env-aware base URL (`VITE_API_URL` / desktop runtime config), typed `ApiRequestError` (timeout/network/aborted/config), request IDs, auth-token provider hook |
+| Auth/session state                | Foundation implemented — `SessionProvider` with honest `unauthenticated` status (no fabricated auth); `RequireAuth`/`RequirePermission` guards with planned role map |
+| Workspace context                 | Foundation implemented — active business/branch selection state, no fake data |
+| i18n                              | Foundation implemented — EN/AM dictionaries, `I18nProvider`, `document.lang`/`dir` sync, locale persisted; Amharic font stack in `styles/ui.css` |
+| UI primitives                     | Implemented — Button, TextField, Card, Badge, Spinner, Feedback + design tokens in `styles/ui.css` |
+| Offline transaction queue         | Foundation implemented — IndexedDB store (`src/lib/offline/`), dedupe by `clientTransactionId`, guarded state machine, crash recovery; sync submitter is an injected contract (see `OFFLINE_ARCHITECTURE.md`, `BACKEND_DEPENDENCIES.md`) |
 | Feature modules                   | Planned                             |
-| Authenticated HTTP client         | Planned                             |
 | TanStack Query, forms, MSW        | Planned; dependencies not installed |
 | Playwright and axe suites         | Planned                             |
 | Business-type capability registry | Planned (API side first)            |
+
+See also: `docs/web/OFFLINE_ARCHITECTURE.md`, `docs/web/BACKEND_DEPENDENCIES.md`,
+`docs/desktop/DESKTOP_ARCHITECTURE.md`.
