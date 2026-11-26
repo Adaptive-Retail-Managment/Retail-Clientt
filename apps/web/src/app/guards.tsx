@@ -38,18 +38,14 @@ export function RequirePermission({
 
   if (session.status !== 'authenticated') return null;
 
-  const membership = session.memberships.find(
-    (m) => m.businessId === workspace.activeBusinessId,
-  );
+  const membership = session.memberships.find((m) => m.businessId === workspace.activeBusinessId);
   const allowed = membership ? roleHasPermission(membership.role, permission) : false;
 
   if (!allowed) {
     return (
       <main className="status-page">
         <h1>Not authorized</h1>
-        <p className="lede">
-          Your role does not include the permission required for this area.
-        </p>
+        <p className="lede">Your role does not include the permission required for this area.</p>
       </main>
     );
   }

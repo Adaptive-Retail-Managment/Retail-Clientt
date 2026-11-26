@@ -16,8 +16,8 @@ export function AppShellPage() {
         <p className="eyebrow">{t('app.name')}</p>
         <h1>{t('shell.title')}</h1>
         <p className="lede">
-          Signed in as {session.user?.displayName ?? 'unknown'} — module navigation is planned,
-          not yet implemented.
+          Signed in as {session.user?.displayName ?? 'unknown'} — module navigation is planned, not
+          yet implemented.
         </p>
       </header>
     </main>

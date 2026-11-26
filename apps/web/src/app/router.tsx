@@ -31,8 +31,7 @@ const routes = [
  * both web and desktop without a second router implementation.
  */
 function createAppRouter(): RouterProviderProps['router'] {
-  const isFileOrigin =
-    typeof window !== 'undefined' && window.location.protocol === 'file:';
+  const isFileOrigin = typeof window !== 'undefined' && window.location.protocol === 'file:';
   return isFileOrigin ? createHashRouter(routes) : createBrowserRouter(routes);
 }
 

@@ -42,7 +42,8 @@ export class IdbTransactionStore implements TransactionStore {
       };
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject(request.error ?? new Error('Failed to open offline database'));
-      request.onblocked = () => reject(new Error('Offline database upgrade blocked by another connection'));
+      request.onblocked = () =>
+        reject(new Error('Offline database upgrade blocked by another connection'));
     });
     return this.dbPromise;
   }
@@ -134,10 +135,7 @@ export class IdbTransactionStore implements TransactionStore {
     const db = await this.db();
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(STORE_NAME, 'readonly');
-      const request = transaction
-        .objectStore(STORE_NAME)
-        .index(STATE_INDEX)
-        .getAll(state);
+      const request = transaction.objectStore(STORE_NAME).index(STATE_INDEX).getAll(state);
       request.onsuccess = () => resolve(request.result as OfflineTransaction[]);
       request.onerror = () => reject(request.error ?? new Error('Offline store index read failed'));
     });

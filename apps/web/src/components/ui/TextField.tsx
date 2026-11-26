@@ -19,7 +19,11 @@ export function TextField({ label, hint, error, icon, id, className, ...rest }: 
         {label}
       </label>
       <div className="field__control">
-        {icon ? <span className="field__icon" aria-hidden="true">{icon}</span> : null}
+        {icon ? (
+          <span className="field__icon" aria-hidden="true">
+            {icon}
+          </span>
+        ) : null}
         <input
           id={fieldId}
           className="field__input"

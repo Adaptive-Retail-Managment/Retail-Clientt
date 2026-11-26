@@ -51,7 +51,9 @@ describe('state transitions', () => {
   it('refuses illegal transitions', async () => {
     const tx = await queue.enqueue(sale());
     expect(await queue.markSynced(tx.clientTransactionId)).toMatchObject({ state: 'pending' });
-    expect(await queue.markRejected(tx.clientTransactionId, 'x')).toMatchObject({ state: 'pending' });
+    expect(await queue.markRejected(tx.clientTransactionId, 'x')).toMatchObject({
+      state: 'pending',
+    });
   });
 
   it('returns retryable failures to pending', async () => {
@@ -86,9 +88,7 @@ describe('restart recovery', () => {
     await queue.markSyncing(tx.clientTransactionId);
 
     // Simulate restart: brand-new store + queue over the same IndexedDB.
-    const recovered = new OfflineQueue(
-      new IdbTransactionStore(undefined, `arp-test-${dbCounter}`),
-    );
+    const recovered = new OfflineQueue(new IdbTransactionStore(undefined, `arp-test-${dbCounter}`));
     expect(await recovered.recoverInterrupted()).toBe(1);
     expect(await recovered.get(tx.clientTransactionId)).toMatchObject({ state: 'pending' });
   });

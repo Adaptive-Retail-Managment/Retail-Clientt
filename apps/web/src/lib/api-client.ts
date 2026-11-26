@@ -56,7 +56,11 @@ function requestId(): string {
  */
 export async function apiRequest<T>(
   path: string,
-  options: { timeoutMs?: number; signal?: AbortSignal; validate?: (body: unknown) => T | null } = {},
+  options: {
+    timeoutMs?: number;
+    signal?: AbortSignal;
+    validate?: (body: unknown) => T | null;
+  } = {},
 ): Promise<ApiResult<T>> {
   const { timeoutMs = 5000, signal: externalSignal, validate } = options;
 

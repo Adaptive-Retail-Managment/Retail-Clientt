@@ -23,9 +23,7 @@ const DEV = { devServerUrl: 'http://localhost:5173' };
 describe('isTrustedNavigationUrl', () => {
   it('allows only the exact packaged file URL in production', () => {
     expect(isTrustedNavigationUrl(PROD.prodFileUrl, PROD)).toBe(true);
-    expect(
-      isTrustedNavigationUrl('file:///C:/app/apps/web/dist/other.html', PROD),
-    ).toBe(false);
+    expect(isTrustedNavigationUrl('file:///C:/app/apps/web/dist/other.html', PROD)).toBe(false);
     expect(isTrustedNavigationUrl('https://evil.example.com', PROD)).toBe(false);
     expect(isTrustedNavigationUrl('file:///C:/Windows/system.ini', PROD)).toBe(false);
   });
@@ -40,12 +38,8 @@ describe('isTrustedNavigationUrl', () => {
 
 describe('isTrustedFrameUrl', () => {
   it('accepts renderer frames inside the packaged web/dist directory', () => {
-    expect(
-      isTrustedFrameUrl('file:///C:/app/apps/web/dist/index.html', PROD),
-    ).toBe(true);
-    expect(
-      isTrustedFrameUrl('file:///C:/app/apps/web/dist/assets/app.js', PROD),
-    ).toBe(true);
+    expect(isTrustedFrameUrl('file:///C:/app/apps/web/dist/index.html', PROD)).toBe(true);
+    expect(isTrustedFrameUrl('file:///C:/app/apps/web/dist/assets/app.js', PROD)).toBe(true);
     expect(isTrustedFrameUrl('file:///C:/Windows/system.ini', PROD)).toBe(false);
   });
 
@@ -108,7 +102,7 @@ describe('cspFor', () => {
     expect(csp).toContain("object-src 'none'");
     expect(csp).toContain("frame-ancestors 'none'");
     expect(csp).not.toContain('unsafe-eval');
-    expect(csp).not.toContain('unsafe-inline' + "'" + ' ' + "script");
+    expect(csp).not.toContain('unsafe-inline' + "'" + ' ' + 'script');
   });
 
   it('permits Vite HMR requirements only in development', () => {

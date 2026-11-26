@@ -16,11 +16,11 @@ This module (`apps/web/src/lib/offline/`) covers **pending offline POS sales**
 
 ## 2. Storage selection
 
-| Option | Decision | Reason |
-| ------ | -------- | ------ |
-| `localStorage` | **Rejected** | Whole-blob synchronous read-modify-write; one corrupt byte loses the queue; ~5 MB quota; no per-record atomicity. |
-| SQLite (`better-sqlite3`, `sql.js`) | **Rejected** | Native module requires Electron rebuilds and has no web story; `sql.js` is WASM-in-memory unless manually persisted. Unjustified complexity for an append/update queue. |
-| **IndexedDB** | **Selected** | Available identically in browsers and the Electron (Chromium) renderer; real transactions; per-record atomic writes; indexed queries; survives restarts; structured-clone storage; zero new runtime dependencies. |
+| Option                              | Decision     | Reason                                                                                                                                                                                                            |
+| ----------------------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `localStorage`                      | **Rejected** | Whole-blob synchronous read-modify-write; one corrupt byte loses the queue; ~5 MB quota; no per-record atomicity.                                                                                                 |
+| SQLite (`better-sqlite3`, `sql.js`) | **Rejected** | Native module requires Electron rebuilds and has no web story; `sql.js` is WASM-in-memory unless manually persisted. Unjustified complexity for an append/update queue.                                           |
+| **IndexedDB**                       | **Selected** | Available identically in browsers and the Electron (Chromium) renderer; real transactions; per-record atomic writes; indexed queries; survives restarts; structured-clone storage; zero new runtime dependencies. |
 
 `IdbTransactionStore` (`idb.ts`) wraps a single object store `transactions`
 (keyPath `clientTransactionId`, index `by-state`) in database `arp-offline-pos`.

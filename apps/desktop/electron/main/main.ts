@@ -65,7 +65,7 @@ app.on('web-contents-created', (_event, contents) => {
 });
 
 app.whenReady().then(() => {
-const ipcContext = {
+  const ipcContext = {
     devServerUrl,
     prodFileUrl: isDev ? undefined : rendererFileUrl(__dirname),
     apiBaseUrl,

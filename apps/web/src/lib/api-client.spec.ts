@@ -20,7 +20,10 @@ afterEach(() => {
 
 describe('apiRequest', () => {
   it('returns parsed body and status for any HTTP status', async () => {
-    vi.stubGlobal('fetch', vi.fn(() => Promise.resolve(jsonResponse({ ok: 1 }, 503))));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() => Promise.resolve(jsonResponse({ ok: 1 }, 503))),
+    );
 
     const result = await apiRequest<{ ok: number }>('/ready');
 
@@ -114,10 +117,13 @@ describe('apiRequest', () => {
   });
 
   it('runs the response validator and surfaces null for invalid bodies', async () => {
-    vi.stubGlobal('fetch', vi.fn(() => Promise.resolve(jsonResponse({ wrong: true }))));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() => Promise.resolve(jsonResponse({ wrong: true }))),
+    );
 
     const result = await apiRequest<unknown>('/health', {
-      validate: (body) => (body as { ok?: boolean }).ok === true ? body : null,
+      validate: (body) => ((body as { ok?: boolean }).ok === true ? body : null),
     });
 
     expect(result.body).toBeNull();

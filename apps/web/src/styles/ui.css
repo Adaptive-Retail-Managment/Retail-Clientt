@@ -29,8 +29,7 @@
   --shadow-lg: 0 12px 32px rgb(16 24 40 / 12%);
 
   /* Amharic-capable font stack (Noto Sans Ethiopic covers Ethiopic glyphs). */
-  --font-family:
-    'Noto Sans Ethiopic', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-family: 'Noto Sans Ethiopic', 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
 /* Explicit theme override in addition to prefers-color-scheme. */

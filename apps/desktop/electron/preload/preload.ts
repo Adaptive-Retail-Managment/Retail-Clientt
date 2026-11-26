@@ -1,10 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import {
-  IPC_CHANNELS,
-  type AppInfo,
-  type DesktopApi,
-  type RuntimeConfig,
-} from '../ipc/contracts';
+import { IPC_CHANNELS, type AppInfo, type DesktopApi, type RuntimeConfig } from '../ipc/contracts';
 import { assertAllowedChannel } from './allowed-channels';
 
 const api: DesktopApi = {

@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useMemo,
-  useState,
-  type ReactNode,
-} from 'react';
+import { createContext, useContext, useMemo, useState, type ReactNode } from 'react';
 
 /**
  * Active workspace context: which business and branch the user is operating
@@ -40,8 +34,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
           // A branch belongs to a business; switching business clears it.
           activeBranchId: businessId === w.activeBusinessId ? w.activeBranchId : null,
         })),
-      setActiveBranch: (branchId) =>
-        setWorkspace((w) => ({ ...w, activeBranchId: branchId })),
+      setActiveBranch: (branchId) => setWorkspace((w) => ({ ...w, activeBranchId: branchId })),
     }),
     [workspace],
   );

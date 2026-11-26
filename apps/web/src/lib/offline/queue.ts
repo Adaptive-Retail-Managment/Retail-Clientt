@@ -117,21 +117,30 @@ export class OfflineQueue {
     });
   }
 
-  markSynced(clientTransactionId: string, serverTransactionId?: string): Promise<OfflineTransaction | undefined> {
+  markSynced(
+    clientTransactionId: string,
+    serverTransactionId?: string,
+  ): Promise<OfflineTransaction | undefined> {
     return this.update(clientTransactionId, (tx) => {
       if (!canTransition(tx.state, 'synced')) return tx;
       return this.touch({ ...tx, state: 'synced', serverTransactionId });
     });
   }
 
-  markRejected(clientTransactionId: string, reason: string): Promise<OfflineTransaction | undefined> {
+  markRejected(
+    clientTransactionId: string,
+    reason: string,
+  ): Promise<OfflineTransaction | undefined> {
     return this.update(clientTransactionId, (tx) => {
       if (!canTransition(tx.state, 'rejected')) return tx;
       return this.touch({ ...tx, state: 'rejected', lastError: reason });
     });
   }
 
-  markConflict(clientTransactionId: string, reason: string): Promise<OfflineTransaction | undefined> {
+  markConflict(
+    clientTransactionId: string,
+    reason: string,
+  ): Promise<OfflineTransaction | undefined> {
     return this.update(clientTransactionId, (tx) => {
       if (!canTransition(tx.state, 'conflict')) return tx;
       return this.touch({ ...tx, state: 'conflict', lastError: reason });
@@ -139,7 +148,10 @@ export class OfflineQueue {
   }
 
   /** Retryable failure returns the transaction to pending for a later attempt. */
-  markRetryable(clientTransactionId: string, reason: string): Promise<OfflineTransaction | undefined> {
+  markRetryable(
+    clientTransactionId: string,
+    reason: string,
+  ): Promise<OfflineTransaction | undefined> {
     return this.update(clientTransactionId, (tx) => {
       if (!canTransition(tx.state, 'pending')) return tx;
       return this.touch({ ...tx, state: 'pending', lastError: reason });
