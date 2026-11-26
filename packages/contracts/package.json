@@ -1,0 +1,11 @@
+{
+  "name": "@arp/contracts",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Shared application contracts (IPC bridge API surface, runtime config) used by desktop main/preload and the web renderer. Types only — no runtime code.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.d.ts"
+  },
+  "types": "./src/index.d.ts"
+}

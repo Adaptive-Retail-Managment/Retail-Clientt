@@ -1,5 +1,6 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { I18nProvider } from '../../../lib/i18n/i18n';
 import { SystemStatusPage } from './SystemStatusPage';
 
 const liveness = {
@@ -45,6 +46,14 @@ function mockProbes(responses: Record<string, Response>): void {
   );
 }
 
+function renderPage() {
+  return render(
+    <I18nProvider>
+      <SystemStatusPage />
+    </I18nProvider>,
+  );
+}
+
 afterEach(() => {
   cleanup();
   vi.unstubAllGlobals();
@@ -54,7 +63,7 @@ describe('SystemStatusPage', () => {
   it('shows healthy API and database state', async () => {
     mockProbes({ '/health': jsonResponse(liveness), '/ready': jsonResponse(readinessUp) });
 
-    render(<SystemStatusPage />);
+    renderPage();
 
     expect(screen.getByRole('heading', { name: /platform status/i })).toBeInTheDocument();
     expect(await screen.findByText('Live')).toBeInTheDocument();
@@ -68,7 +77,7 @@ describe('SystemStatusPage', () => {
       '/ready': jsonResponse(readinessDown, 503),
     });
 
-    render(<SystemStatusPage />);
+    renderPage();
 
     expect(await screen.findByText('Not reachable')).toBeInTheDocument();
     expect(screen.getByRole('status')).toHaveTextContent(/degraded/i);
@@ -81,7 +90,7 @@ describe('SystemStatusPage', () => {
       vi.fn(() => Promise.reject(new Error('connect ECONNREFUSED'))),
     );
 
-    render(<SystemStatusPage />);
+    renderPage();
 
     expect(await screen.findByRole('alert')).toHaveTextContent(/could not be reached/i);
     expect(screen.getByRole('status')).toHaveTextContent(/unreachable/i);

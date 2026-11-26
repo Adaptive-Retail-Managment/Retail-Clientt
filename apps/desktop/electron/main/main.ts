@@ -1,11 +1,27 @@
 import path from 'node:path';
-import { app, BrowserWindow } from 'electron';
-import { registerAppInfoHandler } from '../ipc/handlers/app-info';
+import { pathToFileURL } from 'node:url';
+import { app, BrowserWindow, session } from 'electron';
+import { registerAppInfoHandler, registerRuntimeConfigHandler } from '../ipc/handlers/app-info';
+import { registerOpenExternalHandler } from '../ipc/handlers/open-external';
+import type { RuntimeConfig } from '../ipc/contracts';
 import { getRendererTarget } from './renderer-target';
 import { hardenSession, hardenWindowContents } from './security';
 
 const isDev = process.argv.includes('--dev');
 const devServerUrl = isDev ? (process.env.WEB_DEV_URL ?? 'http://localhost:5173') : undefined;
+const apiBaseUrl = process.env.ARP_API_BASE_URL?.trim() || null;
+
+function rendererFileUrl(mainDir: string): string {
+  return pathToFileURL(path.resolve(mainDir, '../../../web/dist/index.html')).href;
+}
+
+function resolveRuntimeConfig(): RuntimeConfig {
+  return {
+    apiBaseUrl,
+    environment: isDev ? 'development' : 'production',
+    isPackaged: !isDev,
+  };
+}
 
 function createMainWindow(): BrowserWindow {
   const window = new BrowserWindow({
@@ -41,12 +57,25 @@ function createMainWindow(): BrowserWindow {
 
 // Renders are only ever created by this process.
 app.on('web-contents-created', (_event, contents) => {
-  hardenWindowContents(contents, { devServerUrl });
+  hardenWindowContents(contents, {
+    devServerUrl,
+    prodFileUrl: isDev ? undefined : rendererFileUrl(__dirname),
+    apiBaseUrl,
+  });
 });
 
 app.whenReady().then(() => {
-  hardenSession();
-  registerAppInfoHandler();
+  const ipcContext = {
+    devServerUrl,
+    prodFileUrl: isDev ? undefined : rendererFileUrl(__dirname),
+    apiBaseUrl,
+  };
+
+  hardenSession(session.defaultSession, ipcContext);
+  registerAppInfoHandler(ipcContext);
+  registerRuntimeConfigHandler(ipcContext, resolveRuntimeConfig);
+  registerOpenExternalHandler(ipcContext);
+
   createMainWindow();
 
   app.on('activate', () => {
