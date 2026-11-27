@@ -1,4 +1,5 @@
 import { cleanup, render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { I18nProvider } from '../../../lib/i18n/i18n';
 import { SystemStatusPage } from './SystemStatusPage';
@@ -48,9 +49,11 @@ function mockProbes(responses: Record<string, Response>): void {
 
 function renderPage() {
   return render(
-    <I18nProvider>
-      <SystemStatusPage />
-    </I18nProvider>,
+    <MemoryRouter>
+      <I18nProvider>
+        <SystemStatusPage />
+      </I18nProvider>
+    </MemoryRouter>,
   );
 }
 
