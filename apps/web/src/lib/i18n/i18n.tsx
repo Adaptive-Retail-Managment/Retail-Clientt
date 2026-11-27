@@ -30,7 +30,8 @@ function initialLocale(): Locale {
 interface I18nContextValue {
   locale: Locale;
   setLocale: (locale: Locale) => void;
-  t: (key: TranslationKey) => string;
+  /** Translate a key; `{name}` placeholders are replaced from `vars`. */
+  t: (key: TranslationKey, vars?: Record<string, string | number>) => string;
 }
 
 const I18nContext = createContext<I18nContextValue | null>(null);
@@ -52,7 +53,13 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     () => ({
       locale,
       setLocale,
-      t: (key) => dictionaries[locale][key] ?? en[key],
+      t: (key, vars) => {
+        const template = dictionaries[locale][key] ?? en[key];
+        if (!vars) return template;
+        return template.replace(/\{(\w+)\}/g, (match, name: string) =>
+          name in vars ? String(vars[name]) : match,
+        );
+      },
     }),
     [locale, setLocale],
   );

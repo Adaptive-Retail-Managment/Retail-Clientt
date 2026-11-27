@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { LanguageSwitcher } from '../../../components/LanguageSwitcher';
 import { useTranslation } from '../../../lib/i18n/i18n';
 import { useSystemHealth, type SystemHealthSnapshot } from '../hooks/use-system-health';
@@ -120,6 +121,8 @@ export function SystemStatusPage() {
             {t('status.lastChecked')} {new Date(snapshot.checkedAt).toLocaleTimeString()}
           </span>
         ) : null}
+        <Link to="/onboarding">{t('onboarding.nav')}</Link>
+        <Link to="/dashboard">{t('nav.dashboard')}</Link>
       </footer>
     </main>
   );
