@@ -46,7 +46,8 @@ export const am: Record<TranslationKey, string> = {
   'onboarding.title': 'ንግድዎን ያስጀምሩ',
   'onboarding.progress': 'ደረጃ {current} ከ{total}',
   'onboarding.intro.title': 'እንኳን ደህና መጡ — ንግድዎን እንዘጋጅ',
-  'onboarding.intro.lede': 'ይህ በደረጃ የሚመራ የማዋቀር ሂደት ጥቂት ደቂቃዎችን ይወስዳል፤ የሥራ ቦታዎንም ለዕለታዊ የችርቻሮ ንግድ ሥራዎች ያዘጋጃል።',
+  'onboarding.intro.lede':
+    'ይህ በደረጃ የሚመራ የማዋቀር ሂደት ጥቂት ደቂቃዎችን ይወስዳል፤ የሥራ ቦታዎንም ለዕለታዊ የችርቻሮ ንግድ ሥራዎች ያዘጋጃል።',
   'onboarding.intro.body':
     'መሠረታዊ የንግድ መረጃዎን ይሰጣሉ፣ ዘርፍዎን ይመርጣሉ እና የመጀመሪያ ቅርንጫፍዎን ይፈጥራሉ። ያስገቡትን ሁሉ ከማጠናቀቅዎ በፊት መገምገም እና ማስተካከል ይችላሉ።',
   'onboarding.intro.guided': 'ምን እንደሚያደርጉ፡ የንግድ መረጃ → ዘርፍ → የመጀመሪያ ቅርንጫፍ → ግምገማ → ጨርስ።',
